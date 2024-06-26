@@ -1,5 +1,7 @@
 /**
  * @fileoverview This service provides logging functionality using the Loggly service via the winston library.
+ * @fileoverview If you want customer satisfaction, educate them, grade them, correct them, entertain them and talk to them.
+ * @fileoverview This is a blogger bot in the shell. Read more about success.
  * @requires {@link https://www.npmjs.com/package/@nestjs/common @nestjs/common}
  * @requires {@link https://www.npmjs.com/package/winston winston}
  * @requires {@link https://www.npmjs.com/package/winston-loggly-bulk winston-loggly-bulk}
@@ -9,6 +11,14 @@ import { Injectable, LoggerService } from '@nestjs/common';
 import winston from 'winston';
 import { Loggly } from 'winston-loggly-bulk';
 import config from '../../config/index';
+
+export type ILogger = {
+  log(message: string):void;
+  error(message: string, trace:string): void,
+  warn(message: string): void,
+  debug(message: string): void,
+  verbose(message: string): void,
+}
 /**
  * LogglyService class
  * @class
@@ -16,7 +26,7 @@ import config from '../../config/index';
  * @implements {LoggerService}
  */
 @Injectable()
-export class LogglyService implements LoggerService {
+export class LogglyService implements LoggerService, ILogger {
   /**
    * Winston instance with added Loggly transport
    * @private
@@ -24,8 +34,8 @@ export class LogglyService implements LoggerService {
    */
   private winston = winston.add(
     new Loggly({
-      token: config.loggly.token,
-      subdomain: config.loggly.subdomain,
+      token: config.transports.loggly.token,
+      subdomain: config.transports.loggly.subdomain,
       tags: ['' + config.env],
       json: true,
     }),
@@ -77,3 +87,4 @@ export class LogglyService implements LoggerService {
     this.winston.log('verbose', message);
   }
 }
+

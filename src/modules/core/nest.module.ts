@@ -1,5 +1,5 @@
 /**
- * @file This file contains the main module for the application (Jekomo) and the initialization function for the application.
+ * @file This file contains the main module for the application (Threadly) and the initialization function for the application.
  * @requires {@link https://www.npmjs.com/package/@nestjs/common @nestjs/common}
  * @requires ../../modules/db/database.module
  * @requires {@link https://www.npmjs.com/package/@nestjs/core @nestjs/core}
@@ -12,10 +12,12 @@
  * @requires ../../config/index
  * @requires ../../middlwares/auth.middleware
  * @requires ../../controllers/user.controller
+ * @requires ../../controllers/multimedia.controller
  * @requires ../../services/user.service
  * @requires {@link https://www.npmjs.com/package/@nestjs/jwt @nestjs/jwt}
  * @requires ../../filters/allExceptions.filter
  * @requires ../../strategies/jwt.strategy
+ * @requires {@link https://www.npmjs.com/package/@nestjs/redis @nestjs/jwt}
  */
 import {
   NestModule,
@@ -35,41 +37,66 @@ import cookieParser from 'cookie-parser';
 import config from '../../config/index';
 import { AuthMiddleware } from '../../middlewares/auth.middleware';
 import UserController from '../../controllers/user.controller';
+import MultimediaController from '../../controllers/multimedia.controller';
 import { UserService } from '../../services/user.service';
 import { JwtModule } from '@nestjs/jwt';
 import { AllExceptionsFilter } from '../../filters/allExceptions.filter';
 import { JwtStrategy } from '../../strategies/jwt.strategy';
+import { RedisModule } from '@liaoliaots/nestjs-redis';
+import { RedisService } from '../../services/core/redis';
 
+import Throbber from '../../helpers/throbber';
+import HashMapService from '../../services/maps/hashmap';
+import { RedisFactory } from '../packages/redis.factory';
+import { GoogleSlidesService } from '../../services/multimedia/googleSlides';
 const protectedRoutes = [
   { path: 'users/logoutAll', method: RequestMethod.ALL },
   // { path: 'users/logout', method: RequestMethod.ALL },
   { path: 'users/grantAdmin', method: RequestMethod.ALL },
-  { path: 'users/grantUser', method: RequestMethod.ALL },
+  { path: 'users/revokeAdmin', method: RequestMethod.ALL },
 ];
 /**
- * @module Jekomo - This is the main module for the application. It sets up the necessary services, controllers and middleware.
+ * @module Threadly - This is the main module for the application. It sets up the necessary services, controllers and middleware.
  */
 @Module({
   imports: [
+    //Contracts/Deals
     DatabaseModule,
+    //Coins
     JwtModule.register({
       secret: config.secret,
     }),
+    //Wallet
+    RedisModule.forRoot({
+      readyLog: true,
+      config: {
+        host: config.redis.host,
+        port: Number(config.redis.port),
+      }
+    }),
   ],
-  controllers: [UserController],
+  controllers: [UserController, MultimediaController],
   providers: [
     SentryMiddleware,
     LogglyService,
     AuthMiddleware,
     UserService,
     JwtStrategy,
+    Throbber,
     {
       provide: 'LoggerService',
       useClass: LogglyService,
     },
+    {
+      provide: 'RedisService',
+      useClass: RedisService,
+    },
+    HashMapService,
+    RedisFactory,
+    GoogleSlidesService
   ],
 })
-export class Jekomo implements NestModule {
+export class Threadly implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(AuthMiddleware).forRoutes(...protectedRoutes);
     consumer.apply(SentryMiddleware).forRoutes('*');
@@ -80,17 +107,17 @@ export class Jekomo implements NestModule {
  */
 export async function init() {
   const appStartThrobber = ora();
-  const app = await NestFactory.create<NestExpressApplication>(Jekomo);
+  const app = await NestFactory.create<NestExpressApplication>(Threadly);
   app.useLogger(app.get('LoggerService'));
   const server = app.getHttpServer();
   const allowedDevOrigins = [
     'http://localhost:3000',
-    'https://dev.jekomo.com',
-    'https://dev-api.jekomo.com',
+    'https://dev.threadly.ai',
+    'https://dev-api.threadly.ai',
   ];
   const allowedStagingOrigins = [
-    'https://staging.jekomo.com',
-    'https://staging-api.jekomo.com',
+    'https://staging.threadly.ai',
+    'https://staging-api.threadly.ai',
     'http://localhost:3000',
   ];
   app.use(morgan('dev'));

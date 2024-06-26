@@ -1,5 +1,6 @@
 /**
  * @fileoverview This module provides a middleware service for Sentry, an error tracking tool.
+ * @fileoverview Resource managment tool, A&R
  * @module SentryService
  * @requires {@link https://www.npmjs.com/package/@nestjs/common @nestjs/common}
  * @requires {@link https://www.npmjs.com/package/@nestjs/core @nestjs/core}
@@ -36,7 +37,7 @@ export default class SentryService implements NestMiddleware {
   init() {
     const app = this.adapterHost.httpAdapter.getInstance();
     this.SentryClient.init({
-      dsn: `https://${config.sentryToken}@sentry.io/${config.sentryID}`,
+      dsn: `https://${config.sentryToken}.ingest.us.sentry.io/${config.sentryID}`,
       environment: config.env,
       integrations: [
         // enable HTTP calls tracing

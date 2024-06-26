@@ -88,7 +88,7 @@ export class MongooseService implements MongooseOptionsFactory {
    * @param {string} message - The message to log before disconnecting
    * @returns {Promise<void>} - A promise that resolves when the connection is closed
    */
-  async disconnect(message) {
+  async disconnect(message: string): Promise<void> {
     if (this.connection) {
       this.showLogs ? this.mongoThrobber.info(message) : null;
       return await this.connection.close();

@@ -105,14 +105,31 @@ export default class UserController {
         : 'Failed to change role',
     };
   }
-  /** Endpoint for revoking a user's admin privileges. */
-  @Post('grantUser')
+  /** Endpoint for granting a user owner privileges. */
+  @Post('makeOwner')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRoles.ADMIN)
-  public async grantUser(
+  @Roles(UserRoles.OWNER)
+  public async grantOwner(
     @Body() payload: ChangeRoleDto,
   ): Promise<ResponseDTO<null>> {
-    const data = await this.userService.grantUser(payload);
+    const data = payload.username
+      ? await this.userService.grantOwner(payload)
+      : false;
+    return {
+      success: !!data,
+      message: data
+        ? 'User role switched to owner successfully'
+        : 'Failed to change role',
+    };
+  }
+  /** Endpoint for revoking a user's admin privileges. */
+  @Post('revokeAdmin')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRoles.ADMIN)
+  public async revokeAdmin(
+    @Body() payload: ChangeRoleDto,
+  ): Promise<ResponseDTO<null>> {
+    const data = await this.userService.revokeAdmin(payload);
     return {
       success: !!data,
       message: data

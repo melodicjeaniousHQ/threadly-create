@@ -11,4 +11,7 @@
 export enum UserRoles {
   ADMIN = 'admin',
   USER = 'user',
+  CUSTOMER_SERVICE = 'cs',
+  CONTENT_CONTRIBUTOR = 'cc',
+  OWNER = 'owner'
 }

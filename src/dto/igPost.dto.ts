@@ -1,6 +1,6 @@
 /**
  * @fileoverview This module provides a data transfer object for changing a user's role.
- * @module ChangeRoleDto
+ * @module IGPostDTO
  * @requires {@link https://www.npmjs.com/package/class-validator class-validator}
  */
 
@@ -8,17 +8,19 @@ import { IsMongoId, IsNotEmpty, IsString } from 'class-validator';
 
 /**
  * @class
- * @classdesc This class provides a data transfer object for changing a user's role.
+ * @classdesc This class provides a data transfer object for a Instagram Post instance
  */
-export default class ChangeRoleDto {
-  /** The user's ID. */
+export default class IGPostDTO {
+  /** The post's ID. */
   @IsString()
   @IsNotEmpty()
-  @IsMongoId()
   readonly id?: string;
-  /** The Target user's username. Where applicable */
+  /** The post's text. */
   @IsString()
   @IsNotEmpty()
-  @IsMongoId()
-  readonly username?: string;
+  readonly text: string;
+  /** The post's author. (without @) */
+  @IsString()
+  @IsNotEmpty()
+  readonly author: string;
 }

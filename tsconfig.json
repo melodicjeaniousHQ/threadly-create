@@ -41,5 +41,8 @@
     //   "*": ["node_modules/*"]
     // },
     "allowJs": true,
+    "lib": ["ES2021"],
+    "importHelpers": true,
+    "strict": true
   }
 }

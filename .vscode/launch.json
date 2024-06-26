@@ -2,42 +2,44 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Attach",
-      "port": 9229,
-      "request": "attach",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
-      "type": "node"
-    },
-    
-    {
-      "name": "Launch Start via NPM",
+      "type": "node",
       "request": "launch",
-      "runtimeArgs": [
-        "run",
-        "start:debug"
+      "name": "NestJS Debug",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/node_modules/.bin/ts-node",
+      "args": [
+        "${workspaceFolder}/src/threadly.ts"
       ],
-      "runtimeExecutable": "npm",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "runtimeArgs": ["--inspect-brk"],
+      "outFiles": ["${workspaceFolder}/dist/**/*.js"],
+      "sourceMaps": true,
       "console": "integratedTerminal",
-      "type": "node"
+      "envFile": "${workspaceFolder}/.env"
     },
     {
-      "name": "Launch Test Debug via NPM",
+      "type": "node",
       "request": "launch",
-      "runtimeArgs": [
-        "run",
-        "test:debug"
-      ],
-      "runtimeExecutable": "npm",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "name": "NestJS Debug (nodemon)",
+      "runtimeExecutable": "nodemon",
+      "program": "${workspaceFolder}/src/threadly.ts",
+      "restart": true,
+      "cwd": "${workspaceFolder}",
+      "protocol": "inspector",
       "console": "integratedTerminal",
-      "type": "node"
+      "internalConsoleOptions": "neverOpen",
+      "runtimeArgs": [
+        "--inspect-brk",
+        "-r",
+        "ts-node/register",
+        "-r",
+        "tsconfig-paths/register"
+      ],
+      "envFile": "${workspaceFolder}/.env",
+      "windows": {
+        "runtimeExecutable": "nodemon.cmd"
+      },
+      "outFiles": ["${workspaceFolder}/dist/**/*.js"],
+      "sourceMaps": true
     }
   ]
 }

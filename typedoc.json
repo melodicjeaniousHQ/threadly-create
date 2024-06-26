@@ -6,7 +6,7 @@
     "excludeProtected": true,
     "disableSources": true,
     "hideGenerator": true,
-    "name": "Jekomo",
+    "name": "Threadly",
     "externalPattern": ["**/node_modules/**"],
     "exclude": ["**/node_modules/**"],
     "customCss": "./docs-theme.css",

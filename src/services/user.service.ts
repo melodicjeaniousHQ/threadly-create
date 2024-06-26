@@ -174,7 +174,7 @@ export class UserService {
    * @returns {Promise<mongoose.UpdateWriteOpResult>} - The result of the logout all operation.
    */
   async logoutAll(payload: LogoutDto): Promise<mongoose.UpdateWriteOpResult> {
-    return await this.userModel.updateOne(
+    return this.userModel.updateOne(
       { _id: process?.owner?.id || payload.id },
       { $set: { tokens: [] } },
     );
@@ -197,7 +197,7 @@ export class UserService {
   async grantAdmin(
     payload: ChangeRoleDto,
   ): Promise<mongoose.UpdateWriteOpResult> {
-    return await this.userModel.updateOne(
+    return this.userModel.updateOne(
       { _id: process?.owner?.id || payload.id },
       { $set: { role: UserRoles.ADMIN } },
     );
@@ -206,12 +206,26 @@ export class UserService {
    * @public
    * @async
    * @param {ChangeRoleDto} payload - The change role data.
-   * @returns {Promise<mongoose.UpdateWriteOpResult>} - The result of the grant user operation.
+   * @returns {Promise<mongoose.UpdateWriteOpResult>} - The result of the grant owner operation.
    */
-  async grantUser(
+  async grantOwner(
     payload: ChangeRoleDto,
   ): Promise<mongoose.UpdateWriteOpResult> {
-    return await this.userModel.updateOne(
+    return this.userModel.updateOne(
+      { _id: process?.owner?.id || payload.username },
+      { $set: { role: UserRoles.OWNER } },
+    );
+  }
+  /**
+   * @public
+   * @async
+   * @param {ChangeRoleDto} payload - The change role data.
+   * @returns {Promise<mongoose.UpdateWriteOpResult>} - The result of the grant user operation.
+   */
+  async revokeAdmin(
+    payload: ChangeRoleDto,
+  ): Promise<mongoose.UpdateWriteOpResult> {
+    return this.userModel.updateOne(
       { _id: process.owner.id || payload.id },
       { $set: { role: UserRoles.USER } },
     );

@@ -21,8 +21,27 @@ export default {
     stagingURI: process.env.MONGO_STAGING_URI,
     db: process.env.MONGODB,
   },
-  loggly: {
-    token: process.env.LOGGLY_TOKEN,
-    subdomain: process.env.LOGGLY_SUBDOMAIN,
+  transports:{
+    loggly: {
+      token: process.env.LOGGLY_TOKEN,
+      subdomain: process.env.LOGGLY_SUBDOMAIN,
+    },
   },
+    exportPathVideo: process.env.EXPORT_PATH_VIDEO,
+    exportPathAudio: process.env.EXPORT_PATH_AUDIO,
+    exportPathImage: process.env.EXPORT_PATH_IMAGE,
+    exportAudioExt: process.env.EXPORT_AUDIO_EXTENSION,
+    exportVideoExt: process.env.EXPORT_VIDEO_EXTENSION,
+    exportImageExt: process.env.EXPORT_IMAGE_EXTENSION,
+    exportCommentCount: 5,
+    exportFileNameLength: 16,
+    exportContentWidth: 1920,
+    exportContentHeight: 1080,
+    exportContentColor: '1c1c1c',
+    redis:{
+        port: process.env.REDIS_PORT,
+        host: process.env.REDIS_HOST,
+        defURL: process.env.REDIS_DEF_URL
+    },
+    defaultOutPath: process.env.DEFAULT_OUT_PATH,
 };

@@ -1,4 +1,4 @@
-# Jekomo API
+# Threadly API
 
 ![IsMaintained](https://img.shields.io/badge/Maintained%3F-yes-green.svg)
 ![AMA](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)
@@ -9,7 +9,7 @@
 
 ## Description
 
-Jekomo is a task that implements components of a financial system within a software development company.
+Threadly is a task that implements components of a financial system within a software development company.
 
 Here's the full requirement I got for this project: [Requirements](https://github.com/Richadaf/financial-mgmt-api/blob/master/REQUIREMENTS.md)
 
@@ -59,7 +59,7 @@ $ yarn run test:cov
 
 ## Documentation
 
-Check this [link](https://docs-jekomo.vercel.app)
+Check this [link](https://docs-threadly.vercel.app)
 
 ### Build your own documentation instance
 
@@ -104,7 +104,7 @@ Now, you can host or open the html documentation at `./docs` directory.
 │   ├── guards
 │   │   ├── jwt-auth.guard.ts
 │   │   └── roles.guard.ts
-│   ├── jekomo.ts
+│   ├── threadly.ts
 │   ├── middlewares
 │   │   ├── auth.middleware.ts
 │   │   └── sentry.middleware.ts
@@ -185,4 +185,4 @@ For enquires and questions, contact
 
 ## License
 
-Jekomo is [MIT licensed](LICENSE).
+Threadly is [MIT licensed](LICENSE).

@@ -1,5 +1,5 @@
 /**
- * @file This file contains end-to-end tests for the Jekomo application. It includes tests for the user registration and login routes.
+ * @file This file contains end-to-end tests for the Threadly application. It includes tests for the user registration and login routes.
  * @requires {@link https://www.npmjs.com/package/@nestjs/testing @nestjs/testing}
  * @requires {@link https://www.npmjs.com/package/@nestjs/common @nestjs/common}
  * @requires {@link https://www.npmjs.com/package/supertest supertest}
@@ -8,13 +8,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
-import { Jekomo } from '../src/modules/core/nest.module';
+import { Threadly } from '../src/modules/core/nest.module';
 /**
  * @function describe - Describes a suite of test cases
  * @param {string} - Name of the test suite
  * @callback - Function that implements the test suite
  */
-describe('Jekomo (e2e)', () => {
+describe('Threadly (e2e)', () => {
   let app: INestApplication;
   /**
    * @function beforeEach - Function to be executed before each test case
@@ -22,7 +22,7 @@ describe('Jekomo (e2e)', () => {
    */
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [Jekomo],
+      imports: [Threadly],
       providers: [],
     }).compile();
 

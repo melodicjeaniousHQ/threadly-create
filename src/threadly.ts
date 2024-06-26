@@ -1,11 +1,13 @@
 /**
- * @fileoverview This module initializes the JEKOMO application and sets up global declarations for NodeJS Process.
- * @module jekomo
- * @requires ./.enmodules/core/nest.module
+ * @fileoverview This module initializes the THREADLY application and sets up global declarations for Node.js Process.
+ * @module threadly
+ * @requires ./modules/core/nest.module
  * @requires {@link https://www.npmjs.com/package/@nestjs/node @sentry/node}
  */
 
-import * as JEKOMO from './modules/core/nest.module';
+import * as THREADLY from './modules/core/nest.module';
+import { QueueManager } from './services/core/queue/manager';
+import MultimediaQueue from './services/core/queue/multimedia';
 
 /**
  * Global declaration for NodeJS Process.
@@ -17,6 +19,7 @@ import * as JEKOMO from './modules/core/nest.module';
  * @property {string|null} owner.username - The username of the owner.
  * @property {string|null} owner.role - The role of the owner.
  * @property {string|null} owner.token - The token of the owner.
+ * @property {QueueManager} THREADLY_QUEUE - The Queue manager
  */
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -29,26 +32,30 @@ declare global {
         role: string | null;
         token: string | null;
       } | null;
+      THREADLY_QUEUE: {
+        Manager: QueueManager;
+        Queue: Record<string, typeof MultimediaQueue>;
+      };
     }
   }
 }
 
 /**
- * The main function that initializes the JEKOMO application.
+ * The main function that initializes the THREADLY application.
  * @async
  * @function
  * @throws {Error} Will throw an error if the initialization fails.
  */
 async function main() {
   try {
-    await JEKOMO.init();
-  } catch (err) {
+    await THREADLY.init();
+  } catch (err: any) {
     console.log('ERROR', err);
-    throw new Error(err);
+    throw new Error(JSON.stringify(err));
   }
 }
 
 main();
 
-/** @exports JEKOMO */
-export default JEKOMO;
+/** @exports THREADLY */
+export default THREADLY;
