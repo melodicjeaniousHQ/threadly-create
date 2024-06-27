@@ -65,3 +65,4 @@ yarn.lock
 docs/
 idea/*
 package-lock.json
+threadly-gkey.json

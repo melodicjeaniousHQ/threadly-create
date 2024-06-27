@@ -44,4 +44,5 @@ export default {
         defURL: process.env.REDIS_DEF_URL
     },
     defaultOutPath: process.env.DEFAULT_OUT_PATH,
+    templatePresentationID: process.env.TEMPLATE_PRESENTATION_ID
 };
