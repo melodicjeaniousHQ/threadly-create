@@ -12,6 +12,7 @@ import { UserRoles } from '../enums/userRoles.enum';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { RolesGuard } from '../guards/roles.guard';
 import MultimediaManager from '../modules/packages/multimedia.manager';
+import { GoogleSlidesService } from '../services/multimedia/googleSlides';
 // create image from text input, return status message and data,
 // post image to redisManager that would conceptualize the image for the
 
@@ -46,11 +47,13 @@ export default class MultimediaController {
   public async createContent(): Promise<ResponseDTO<any>> {
     //filename and path
     //Call multimedia manager to give you the content
-    const content = await MultimediaManager.createIGPost();
+    const presentation = new GoogleSlidesService().createContent('1Ni1O1-wePw9vZln2tqdwWztBtzri8OequX0513oW23g',"Hello World!", "It's about to go down!")
+    const result = await presentation;
+    // const content = await MultimediaManager.createIGPost();
     return {
-      data: content,
-      success: !!content,
-      message: content
+      data: result,
+      success: !!result,
+      message: result
         ? 'Create content successful'
         : 'Failed to create content',
     };
